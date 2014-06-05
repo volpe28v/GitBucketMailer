@@ -1,8 +1,3 @@
-
-/**
- * Module dependencies.
- */
-
 var express = require('express');
 var http = require('http');
 var path = require('path');
@@ -53,26 +48,26 @@ var setting = {
 var smtp = mailer.createTransport('SMTP', setting);
 
 app.post('/gitbucket', function(req, res){
-	var data = req.body;
-	var payload = JSON.parse(data.payload);
-	var pusher = payload["pusher"]["name"];
-	var commits = payload["commits"];
-	var repo = payload["repository"]["name"];
-	var url = payload["repository"]["url"];
+  var data = req.body;
+  var payload = JSON.parse(data.payload);
+  var pusher = payload["pusher"]["name"];
+  var commits = payload["commits"];
+  var repo = payload["repository"]["name"];
+  var url = payload["repository"]["url"];
 
-	var commit_comments = [];
+  var commit_comments = [];
   commit_comments.push(pusher + "さんが " + repo + " に push しました!");
   commit_comments.push("");
   commit_comments.push("リポジトリ: " + url);
   commit_comments.push("");
-	commits.forEach(function(value){
-		commit_comments.push(value["message"]);
+  commits.forEach(function(value){
+    commit_comments.push(value["message"]);
     commit_comments.push(value["url"]);
     commit_comments.push("");
-	});
+  });
 
-	var html_msg = commit_comments.join("<br>\n");
-	var text_msg= commit_comments.join("\n");
+  var html_msg = commit_comments.join("<br>\n");
+  var text_msg= commit_comments.join("\n");
   var subject = "[GitBucket] " + pusher + "さんが " + repo + " に push しました!";
 
   //メールの内容
@@ -97,7 +92,7 @@ app.post('/gitbucket', function(req, res){
     smtp.close();
   });
 
-	res.json({});
+  res.json({});
 });
 
 http.createServer(app).listen(app.get('port'), function(){
