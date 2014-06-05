@@ -71,7 +71,8 @@ app.post('/gitbucket', function(req, res){
     commit_comments.push("");
 	});
 
-	var msg = commit_comments.join("<br>\n");
+	var html_msg = commit_comments.join("<br>\n");
+	var text_msg= commit_comments.join("\n");
   var subject = "[GitBucket] " + pusher + "さんが " + repo + " に push しました!";
 
   //メールの内容
@@ -79,8 +80,8 @@ app.post('/gitbucket', function(req, res){
     from: mail_setting.from,
     to: mail_setting.addr,
     subject: subject,
-    html: msg,
-    text: msg
+    html: html_msg,
+    text: text_msg
   };
 
   //メールの送信
