@@ -1,0 +1,17 @@
+{
+  "name": "gitbucket-mailer",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "start": "node app.js"
+  },
+  "dependencies": {
+    "express": "3.4.7",
+    "jade": "*",
+    "feedparser": "~0.17.0",
+    "request": "~2.36.0",
+    "q": "~1.0.1",
+    "nodemailer": "0.6.5",
+    "moment": "2.6.0"
+  }
+}
