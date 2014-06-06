@@ -99,7 +99,8 @@ function makeHtmlBody(payload){
   commit_comments.push('<a href="' + url + '">' + repo + '</a>');
   commit_comments.push("");
   commits.forEach(function(value){
-    commit_comments.push(value["timestamp"]);
+    var date_str = value["timestamp"].split(" ");
+    commit_comments.push("[" + moment(date_str[5] + " " + date_str[1] + " " + date_str[2] + " " + date_str[3], "YYYY MMM DD HH:mm:ss").format("YYYY/MM/DD HH:mm") + "]");
     commit_comments.push("<blockquote>");
     value["message"].split("\n").forEach(function(msg){
       commit_comments.push(msg);
