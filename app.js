@@ -24,26 +24,29 @@ if ('development' == app.get('env')) {
 var mail_setting = require("./mail_setting.json");
 
 //SMTPの設定
-var setting = {
-  //SMTPサーバーを使う場合
-  host: mail_setting.smpt_host,
-  secureConnection: mail_setting.ssl,
-  port: mail_setting.port,
-  auth: {
-    user: mail_setting.user,
-    pass: mail_setting.pass
-  }
-
-  /*
+var setting = {};
+if (mail_setting.service != ""){
   //Webサービスを使う場合
-  service: 'Gmail', //'Gmail'、'Hotmail'、'Yahoo Mail'など
-  auth: {
-    user: mail_setting.user,
-    pass: mail_setting.pass,
-    port: mail_setting.port
+  setting = {
+    service: mail_setting.service, //'Gmail'、'Hotmail'、'Yahoo Mail'など
+    auth: {
+      user: mail_setting.user,
+      pass: mail_setting.pass,
+      port: mail_setting.port
+    }
   }
-  */
-};
+}else{
+  //SMTPサーバーを使う場合
+  setting = {
+    host: mail_setting.smpt_host,
+    secureConnection: mail_setting.ssl,
+    port: mail_setting.port,
+    auth: {
+      user: mail_setting.user,
+      pass: mail_setting.pass
+    }
+  }
+}
 
 //SMTPの接続
 var smtp = mailer.createTransport('SMTP', setting);
