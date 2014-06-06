@@ -52,23 +52,10 @@ app.post('/gitbucket', function(req, res){
   var data = req.body;
   var payload = JSON.parse(data.payload);
   var pusher = payload["pusher"]["name"];
-  var commits = payload["commits"];
   var repo = payload["repository"]["name"];
-  var url = payload["repository"]["url"];
 
-  var commit_comments = [];
-  commit_comments.push(pusher + "さんが " + repo + " に push しました!");
-  commit_comments.push("");
-  commit_comments.push("リポジトリ: " + url);
-  commit_comments.push("");
-  commits.forEach(function(value){
-    commit_comments.push(value["message"]);
-    commit_comments.push(value["url"]);
-    commit_comments.push("");
-  });
-
-  var html_msg = commit_comments.join("<br>\n");
-  var text_msg= commit_comments.join("\n");
+  var html_msg = makeHtmlBody(payload);
+  var text_msg = makeTextBody(payload);
   var subject = "[GitBucket] " + pusher + "さんが " + repo + " に push しました!";
 
   //メールの内容
@@ -95,6 +82,52 @@ app.post('/gitbucket', function(req, res){
 
   res.json({});
 });
+
+function makeHtmlBody(payload){
+  var pusher = payload["pusher"]["name"];
+  var commits = payload["commits"];
+  var repo = payload["repository"]["name"];
+  var url = payload["repository"]["url"];
+
+  var commit_comments = [];
+  commit_comments.push("お疲れ様です、GitBucketです！");
+  commit_comments.push("<b>" + pusher + "</b> さんがPushしましたよ。");
+  commit_comments.push("");
+  commit_comments.push('<a href="' + url + '">' + repo + '</a>');
+  commit_comments.push("");
+  commits.forEach(function(value){
+    commit_comments.push(value["timestamp"]);
+    commit_comments.push("<blockquote>");
+    value["message"].split("\n").forEach(function(msg){
+      commit_comments.push(msg);
+    });
+    commit_comments.push('<a href="' + value["url"] + '">[差分]</a>');
+    commit_comments.push("</blockquote>");
+    commit_comments.push("");
+  });
+
+  return commit_comments.join("<br>\n");
+}
+
+function makeTextBody(payload){
+  var pusher = payload["pusher"]["name"];
+  var commits = payload["commits"];
+  var repo = payload["repository"]["name"];
+  var url = payload["repository"]["url"];
+
+  var commit_comments = [];
+  commit_comments.push(pusher + "さんが " + repo + " に push しました!");
+  commit_comments.push("");
+  commit_comments.push("リポジトリ: " + url);
+  commit_comments.push("");
+  commits.forEach(function(value){
+    commit_comments.push(value["message"]);
+    commit_comments.push(value["url"]);
+    commit_comments.push("");
+  });
+
+  return commit_comments.join("\n");
+}
 
 http.createServer(app).listen(app.get('port'), function(){
   console.log('Express server listening on port ' + app.get('port'));
