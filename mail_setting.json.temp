@@ -1,7 +1,9 @@
 {
+  "smpt_host": "",
   "user": "",
   "pass": "",
-  "port": "",
+  "port": 25,
+  "ssl" : false,
   "from": "",
   "addr": ""
 }

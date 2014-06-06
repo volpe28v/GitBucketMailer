@@ -26,15 +26,15 @@ var mail_setting = require("./mail_setting.json");
 //SMTPの設定
 var setting = {
   //SMTPサーバーを使う場合
-  /*
-  host: 'SMTPホスト',
+  host: mail_setting.smpt_host,
+  secureConnection: mail_setting.ssl,
+  port: mail_setting.port,
   auth: {
-    user: 'ユーザ名',
-    pass: 'パスワード',
-    port: 'SMTPポート番号'
+    user: mail_setting.user,
+    pass: mail_setting.pass
   }
-  */
 
+  /*
   //Webサービスを使う場合
   service: 'Gmail', //'Gmail'、'Hotmail'、'Yahoo Mail'など
   auth: {
@@ -42,6 +42,7 @@ var setting = {
     pass: mail_setting.pass,
     port: mail_setting.port
   }
+  */
 };
 
 //SMTPの接続
