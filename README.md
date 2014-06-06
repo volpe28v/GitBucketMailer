@@ -1,6 +1,13 @@
 GitBucket の push をメールで通知する
 
-### 設定方法
+### Install
+
+```
+$ cd GitBucketMailer
+$ npm install
+```
+
+### Setting
 
 * mail_setting.json.temp を mail_setting.json にリネーム
 * mail_setting.json を埋める
