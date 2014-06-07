@@ -20,6 +20,7 @@ $ node app.js
 ```
 
 ### ex: Gmail
+mail_setting.json
 ```
 {
   "service": "Gmail",
