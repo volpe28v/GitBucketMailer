@@ -1,0 +1,40 @@
+.commit {
+  margin: 10px 0;
+  padding: 8px 8px 0;
+  background: #e6f1f6;
+  border: 1px solid #c5d5dd;
+  border-radius: 3px;
+}
+
+.commit-title {
+  margin: 0 0 8px;
+  font-size: 18px;
+  font-weight: bold;
+  color: #213f4d;
+  text-shadow: 0 1px rgba(255,255,255,0.5);
+}
+
+.commit-desc {
+  display: block;
+  margin: -5px 0 0px;
+}
+
+.commit-desc pre {
+  max-width: 100%;
+  font-size: 14px;
+  text-shadow: 0 1px rgba(255,255,255,0.5);
+  color: #596063;
+  margin: 10px 0;
+  white-space: pre-wrap;
+  font-family: Consolas, "Liberation Mono", Menlo, Courier, monospace;
+}
+
+.commit-meta {
+  margin-left: -8px;
+  margin-right: -8px;
+  padding: 8px;
+  background: #fff;
+  border-top: 1px solid #d8e6ec;
+  border-bottom-right-radius: 3px;
+  border-bottom-left-radius: 3px;
+}

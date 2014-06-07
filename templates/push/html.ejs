@@ -1,0 +1,21 @@
+お疲れ様です、GitBucketです！ <b><%= pusher %></b> さんがPushしましたよ。
+
+<h1><a href="<%= url %>"><%= owner %> / <strong><%= repo %></strong></a></h1>
+
+<% commits.forEach(function(commit) { %>
+<div class="commit">
+  <p class="commit-title">
+    <%= commit.title %>
+  </p>
+    
+  <div class="commit-desc">
+    <% if (commit.desc) { %>
+    <pre><%= commit.desc %></pre>
+    <% } %>
+  </div>
+  <div class="commit-meta">
+  <%= commit.timestamp %> <a href="<%= commit.url %>"><%= commit.id %></a>
+  </div>
+</div>
+<% }); %>
+

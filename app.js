@@ -3,6 +3,8 @@ var http = require('http');
 var path = require('path');
 var moment = require('moment');
 var mailer = require('nodemailer');
+var templatesDir = path.resolve(__dirname, 'templates');
+var emailTemplates = require('email-templates');
 
 var app = express();
 
@@ -54,9 +56,74 @@ var smtp = mailer.createTransport('SMTP', setting);
 app.post('/gitbucket', function(req, res){
   var data = req.body;
   var payload = JSON.parse(data.payload);
-  var pusher = payload["pusher"]["name"];
-  var repo = payload["repository"]["name"];
+  console.log(payload);
 
+  emailTemplates(templatesDir, function(err, template){
+    var pusher = payload["pusher"]["name"];
+    var commits = payload["commits"];
+    var repo = payload["repository"]["name"];
+    var owner = payload["repository"]["owner"]["name"];
+    var url = payload["repository"]["url"];
+
+    commits_array = [];
+    commits.forEach(function(value){
+      var id = value["id"];
+      var date_str = value["timestamp"].split(" ");
+      var timestamp = "[" + moment(date_str[5] + " " + date_str[1] + " " + date_str[2] + " " + date_str[3], "YYYY MMM DD HH:mm:ss").format("YYYY/MM/DD HH:mm") + "]";
+      var message = value["message"].replace(/(\r\n)+$/,'').replace(/\n+$/,'');
+      var title = message.split("\n")[0];
+      var desc = message.split("\n");
+      desc.shift();
+      if (desc){ desc = desc.join("\n"); };
+      var url = value["url"];
+
+      commits_array.push({
+        id: id,
+        timestamp: timestamp,
+        title: title,
+        desc: desc,
+        url: url
+      });
+    });
+
+    var locals = {
+      pusher: pusher,
+      commits: commits_array,
+      repo: repo,
+      owner: owner,
+      url: url,
+      moment: moment
+    };
+
+    template('push', locals, function(err, html, text){
+      var subject = "[GitBucket] " + pusher + "さんが " + repo + " に push しました!";
+
+      //メールの内容
+      var mailOptions = {
+        from: mail_setting.from,
+        to: mail_setting.addr,
+        subject: subject,
+        html: html,
+        text: text
+      };
+
+      //メールの送信
+      smtp.sendMail(mailOptions, function(err, res){
+        //送信に失敗したとき
+        if(err){
+          console.log(err);
+          //送信に成功したとき
+        }else{
+          console.log('Message sent: ' + res.message);
+        }
+        //SMTPの切断
+        smtp.close();
+      });
+      res.json({});
+    });
+  });
+
+      /*
   var html_msg = makeHtmlBody(payload);
   var text_msg = makeTextBody(payload);
   var subject = "[GitBucket] " + pusher + "さんが " + repo + " に push しました!";
@@ -84,6 +151,7 @@ app.post('/gitbucket', function(req, res){
   });
 
   res.json({});
+  */
 });
 
 function makeHtmlBody(payload){
