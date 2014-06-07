@@ -6,6 +6,7 @@ GitBucket の push をメールで通知する
 $ cd GitBucketMailer
 $ npm install
 ```
+* node のバージョンが 0.11.13 だと email-templates のインストールに失敗するので 0.10.28 で動作確認済み(Macの場合)
 
 ### Setting
 
