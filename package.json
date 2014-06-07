@@ -12,6 +12,11 @@
     "request": "~2.36.0",
     "q": "~1.0.1",
     "nodemailer": "0.6.5",
-    "moment": "2.6.0"
+    "moment": "2.6.0",
+    "email-templates": "1.0.0"
+  },
+  "engines": {
+    "node": "0.10.28",
+    "npm": "1.4.9"
   }
 }
