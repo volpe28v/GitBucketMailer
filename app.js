@@ -95,7 +95,9 @@ app.post('/gitbucket', function(req, res){
     };
 
     template('push', locals, function(err, html, text){
-      var subject = "[GitBucket] " + pusher + "さんが " + repo + " に push しました!";
+      var title_length = commits_array[0].title.length;
+      var cut_length = 20;
+      var subject = "[GitBucket] " + pusher + " - " + repo + " : " + commits_array[0].title.substr(0,cut_length) + (title_length > cut_length ? "..." : "");
 
       //メールの内容
       var mailOptions = {
