@@ -125,25 +125,6 @@ app.post('/gitbucket', function(req, res){
   });
 });
 
-function makeTextBody(payload){
-  var pusher = payload["pusher"]["name"];
-  var commits = payload["commits"];
-  var repo = payload["repository"]["name"];
-  var url = payload["repository"]["url"];
-
-  var commit_comments = [];
-  commit_comments.push(pusher + "さんが " + repo + " に push しました!");
-  commit_comments.push("");
-  commit_comments.push("リポジトリ: " + url);
-  commit_comments.push("");
-  commits.forEach(function(value){
-    commit_comments.push(value["message"]);
-    commit_comments.push("");
-  });
-
-  return commit_comments.join("\n");
-}
-
 http.createServer(app).listen(app.get('port'), function(){
   console.log('Express server listening on port ' + app.get('port'));
 });
