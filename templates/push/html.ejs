@@ -1,6 +1,6 @@
 お疲れ様です、GitBucketです！ <b><%= pusher %></b> さんがPushしましたよ。
 
-<h1><a href="<%= url %>"><%= owner %> / <strong><%= repo %></strong></a></h1>
+<h2><a href="<%= url %>"><%= owner %> / <strong><%= repo %></strong></a></h2>
 
 <% commits.forEach(function(commit) { %>
 <div class="commit">
@@ -19,3 +19,14 @@
 </div>
 <% }); %>
 
+<h3>コミットランキング</3>
+<table>
+<% ranking.forEach(function(rank, i) { %>
+  <tr>
+    <td align="right"><%= i+1 %></td>
+    <td><%= rank.name %></td>
+    <td align="right"><%= rank.point %></td>
+    <td><%= rank.bar %></td>
+  </tr>
+<% }); %>
+</table>
