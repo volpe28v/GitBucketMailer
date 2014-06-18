@@ -139,6 +139,14 @@ app.post('/gitbucket', function(req, res){
     var owner = payload["repository"]["owner"]["name"];
     var url = payload["repository"]["url"];
 
+    // コミットがない場合はエラー終了
+    if (commits.length == 0){
+      console.log("commits is zero!!!");
+      console.log(payload);
+      res.json({});
+      return;
+    }
+
     commits_array = parseCommits(commits);
 
     commit_ranking.add({name: pusher, point: commits.length},function(){
