@@ -20,13 +20,19 @@
 <% }); %>
 
 <h3>コミットランキング</3>
-<table>
+<table width="100%">
 <% ranking.forEach(function(rank, i) { %>
   <tr>
     <td align="right"><%= i+1 %></td>
-    <td><%= rank.name %></td>
+    <td nowrap ><b><%= rank.name %></b></td>
     <td align="right"><%= rank.point %></td>
-    <td><%= rank.bar %></td>
+    <td width="100%">
+      <ul class="graf">
+        <li style="background:#4183c4;width:<%= rank.bar_num %>%;">
+        </li>
+      </ul>
+    </td>
   </tr>
 <% }); %>
 </table>
+

@@ -151,7 +151,7 @@ app.post('/gitbucket', function(req, res){
 
     commit_ranking.add({name: pusher, point: commits.length},function(){
       commit_ranking.get(function(ranking){
-        ranking = parseRanking(ranking, 50);
+        ranking = parseRanking(ranking, 90);
         var locals = {
           pusher: pusher,
           commits: commits_array,
