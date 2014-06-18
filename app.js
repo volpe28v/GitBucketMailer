@@ -110,18 +110,20 @@ function createAndSendMail(template, locals){
   });
 }
 
-function parseRanking(ranking, limit){
+function parseRanking(ranking, html_limit, text_limit){
   if (ranking.length == 0){ return ranking; }
 
   var sum = 0;
   ranking.forEach(function(rank){ sum += rank.point; });
-  var max_sum = (limit * sum) / ranking[0].point;
+  var html_max_sum = (html_limit * sum) / ranking[0].point;
+  var text_max_sum = (text_limit * sum) / ranking[0].point;
 
   ranking.forEach(function(rank){
-    rank.bar_num = parseInt(max_sum * rank.point / sum);
-    rank.bar = "";
-    for (var i = 0; i < rank.bar_num; i++){
-      rank.bar = rank.bar + "#";
+    rank.bar_html_num = parseInt(html_max_sum * rank.point / sum);
+    rank.bar_text_num = parseInt(text_max_sum * rank.point / sum);
+    rank.bar_text = "";
+    for (var i = 0; i < rank.bar_text_num; i++){
+      rank.bar = rank.bar_text + "#";
     }
   });
 
@@ -151,7 +153,7 @@ app.post('/gitbucket', function(req, res){
 
     commit_ranking.add({name: pusher, point: commits.length},function(){
       commit_ranking.get(function(ranking){
-        ranking = parseRanking(ranking, 90);
+        ranking = parseRanking(ranking, 90, 50);
         var locals = {
           pusher: pusher,
           commits: commits_array,

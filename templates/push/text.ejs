@@ -6,9 +6,10 @@
 ----------------------------------------------------------------
 Title: <%= commit.title %>
 <% if (commit.desc) { %><%= commit.desc %><% } %>
-
 Commit: <%= commit.id %>
 Url   : <%= commit.url %>
 <%= commit.timestamp %>
 <% }); %>
 
+[コミットランキング]
+<% ranking.forEach(function(rank, i) { %><%= i+1 + " " + rank.name + " : " + rank.point + "point\n" %><% }); %>
