@@ -22,14 +22,14 @@
 <h3>コミットランキング</3>
 <table width="100%">
 <% ranking.forEach(function(rank, i) { %>
-  <tr>
-    <td align="right"><%= i+1 %></td>
-    <td nowrap ><b><%= rank.name %></b></td>
-    <td align="right"><%= rank.point %></td>
+  <% var add_class = rank.name == pusher ? "pusher" : ""; %>
+  <tr class="<%= add_class %>">
+    <td align="right"><span><%= i+1 %></span></td>
+    <td nowrap><span><%= rank.name %></span></td>
+    <td align="right"><span><%= rank.point %></span></td>
     <td width="100%">
       <ul class="graf">
-        <li style="width:<%= rank.bar_html_num %>%;">
-        </li>
+        <li style="width:<%= rank.bar_html_num %>%;"></li>
       </ul>
     </td>
   </tr>
