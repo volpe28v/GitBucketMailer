@@ -1,6 +1,9 @@
 GitBucket の push をメールで通知する
 
 ## Installation
+事前に必要なもの
+* node.js環境
+* mongodb
 
 ```
 $ cd GitBucketMailer
