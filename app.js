@@ -67,13 +67,19 @@ function parseCommits(commits){
     desc.shift();
     if (desc){ desc = desc.join("\n"); };
     var url = value["url"];
+    var added = value["added"];
+    var removed = value["removed"];
+    var modified = value["modified"];
 
     commits_array.push({
       id: id,
       timestamp: timestamp,
       title: title,
       desc: desc,
-      url: url
+      url: url,
+      added: added,
+      removed: removed,
+      modified: modified
     });
   });
 

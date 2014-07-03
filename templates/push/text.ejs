@@ -9,6 +9,9 @@ Title: <%= commit.title %>
 Commit: <%= commit.id %>
 Url   : <%= commit.url %>
 <%= commit.timestamp %>
+<% commit.modified.forEach(function(modified_file) { %>  MOD : <%= modified_file %><% }); %>
+<% commit.added.forEach(function(added_file) { %>  ADD : <%= added_file %><% }); %>
+<% commit.removed.forEach(function(removed_file) { %>  DEL : <%= removed_file %><% }); %>
 <% }); %>
 
 [コミットランキング]
