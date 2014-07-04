@@ -15,6 +15,17 @@
   </div>
   <div class="commit-meta">
   <%= commit.timestamp %> <a href="<%= commit.url %>"><%= commit.id %></a>
+  <ul>
+  <% commit.modified.forEach(function(modified_file) { %>
+    <li>M: <%= modified_file %></li>
+  <% }); %>
+  <% commit.added.forEach(function(added_file) { %>
+    <li>A: <%= added_file %></li>
+  <% }); %>
+  <% commit.removed.forEach(function(removed_file) { %>
+    <li>D: <%= removed_file %></li>
+  <% }); %>
+  </ul>
   </div>
 </div>
 <% }); %>
