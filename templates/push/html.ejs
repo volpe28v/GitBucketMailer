@@ -14,18 +14,19 @@
     <% } %>
   </div>
   <div class="commit-meta">
-  <%= commit.timestamp %> <a href="<%= commit.url %>"><%= commit.id %></a>
-  <ul>
-  <% commit.modified.forEach(function(modified_file) { %>
-    <li>M: <%= modified_file %></li>
-  <% }); %>
-  <% commit.added.forEach(function(added_file) { %>
-    <li>A: <%= added_file %></li>
-  <% }); %>
-  <% commit.removed.forEach(function(removed_file) { %>
-    <li>D: <%= removed_file %></li>
-  <% }); %>
-  </ul>
+    <ul>
+    <% commit.changed_files.forEach(function(file,i) { %>
+      <% if (file.type == 'A') { %>
+        <li><a href="<%= commit.url %>#diff-<%= i %>"><img src="<%= server_url %>/add.png"></img> <%= file.name %></a></li>
+      <% }else if (file.type == 'D') { %>
+        <li><a href="<%= commit.url %>#diff-<%= i %>"><img src="<%= server_url %>/delete.png"></img> <%= file.name %></a></li>
+      <% }else if (file.type == 'M') { %>
+        <li><a href="<%= commit.url %>#diff-<%= i %>"><img src="<%= server_url %>/edit.png"></img> <%= file.name %></a></li>
+      <% } %>
+    <% }); %>
+    </ul>
+
+    <%= commit.timestamp %> <a href="<%= commit.url %>"><%= commit.id %></a>
   </div>
 </div>
 <% }); %>

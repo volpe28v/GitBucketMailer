@@ -18,6 +18,7 @@ app.use(express.json());
 app.use(express.urlencoded());
 app.use(express.methodOverride());
 app.use(express.bodyParser());
+app.use(express.static(__dirname + '/public'));
 app.use(app.router);
 
 // development only
@@ -26,6 +27,9 @@ if ('development' == app.get('env')) {
 }
 
 var mail_setting = require("./mail_setting.json");
+
+//ServerURLの設定
+app.set("server_url","http://" + mail_setting.server_host + ":" + app.get('port'));
 
 //SMTPの設定
 var setting = {};
@@ -70,6 +74,15 @@ function parseCommits(commits){
     var added = value["added"];
     var removed = value["removed"];
     var modified = value["modified"];
+    var changed_files = [];
+    changed_files = changed_files.concat(added.map(function(file){ return {type: 'A',name: file}; }))
+                                 .concat(removed.map(function(file){ return {type: 'D',name: file}; }))
+                                 .concat(modified.map(function(file){ return {type: 'M',name: file}; }));
+    changed_files.sort(function(a,b){
+      if (a.name < b.name) return -1;
+      if (a.name > b.name) return 1;
+      return 0;
+    });
 
     commits_array.push({
       id: id,
@@ -77,9 +90,7 @@ function parseCommits(commits){
       title: title,
       desc: desc,
       url: url,
-      added: added,
-      removed: removed,
-      modified: modified
+      changed_files: changed_files
     });
   });
 
@@ -161,6 +172,7 @@ app.post('/gitbucket', function(req, res){
       commit_ranking.get(function(ranking){
         ranking = parseRanking(ranking, 90, 50);
         var locals = {
+          server_url: app.get('server_url'),
           pusher: pusher,
           commits: commits_array,
           repo: repo,
