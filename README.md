@@ -26,13 +26,14 @@ $ node app.js
 mail_setting.json
 ```
 {
+  "server_host": "localhost",
   "service": "Gmail",
   "smpt_host": "",
   "user": "yyyy@gmail.com",
-  "pass": "xxxx", 
-  "port": 578, 
+  "pass": "xxxx",
+  "port": 578,
   "ssl" : false,
-  "from": "yyyy@gmail.com", 
+  "from": "yyyy@gmail.com",
   "addr": "zzzz@gmail.com, yzyz@aaaa.com"
 }
 ```
