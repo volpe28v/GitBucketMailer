@@ -101,7 +101,7 @@ function createAndSendMail(template, locals){
   template('push', locals, function(err, html, text){
     var title_length = commits_array[0].title.length;
     var cut_length = 20;
-    var subject = "[GitBucket] " + locals.pusher + " - " + locals.repo + " : " + commits_array[0].title.substr(0,cut_length) + (title_length > cut_length ? "..." : "");
+    var subject = "[GitBucket] " + locals.pusher + " - " + locals.repo + " (" + locals.branch +  ") : " + commits_array[0].title.substr(0,cut_length) + (title_length > cut_length ? "..." : "");
 
     //メールの内容
     var mailOptions = {
@@ -153,6 +153,7 @@ app.post('/gitbucket', function(req, res){
 
   emailTemplates(templatesDir, function(err, template){
     var pusher = payload["pusher"]["name"];
+    var branch = payload["ref"].match(/refs\/heads\/(.+)/)[1];
     var commits = payload["commits"];
     var repo = payload["repository"]["name"];
     var owner = payload["repository"]["owner"]["name"];
@@ -174,6 +175,7 @@ app.post('/gitbucket', function(req, res){
         var locals = {
           server_url: app.get('server_url'),
           pusher: pusher,
+          branch: branch,
           commits: commits_array,
           repo: repo,
           owner: owner,
