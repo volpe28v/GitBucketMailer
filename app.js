@@ -150,19 +150,19 @@ function parseRanking(ranking, html_limit, text_limit){
 app.post('/gitbucket', function(req, res){
   var data = req.body;
   var payload = JSON.parse(data.payload);
+  console.log(payload);
 
   emailTemplates(templatesDir, function(err, template){
     var pusher = payload["pusher"]["name"];
-    var branch = payload["ref"].match(/refs\/heads\/(.+)/)[1];
+    var branch = payload["ref"].match(/refs\/(.+)\/(.+)/)[2];
     var commits = payload["commits"];
     var repo = payload["repository"]["name"];
     var owner = payload["repository"]["owner"]["name"];
     var url = payload["repository"]["url"];
 
-    // コミットがない場合はエラー終了
+    // コミットがない場合はエラー終了(tagの場合も含む)
     if (commits.length == 0){
       console.log("commits is zero!!!");
-      console.log(payload);
       res.json({});
       return;
     }
