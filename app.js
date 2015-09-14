@@ -64,13 +64,13 @@ function parseCommits(commits){
   commits.forEach(function(value){
     var id = value["id"];
     var date_str = value["timestamp"].split(" ");
-    var timestamp = "[" + moment(date_str[5] + " " + date_str[1] + " " + date_str[2] + " " + date_str[3], "YYYY MMM DD HH:mm:ss").format("YYYY/MM/DD HH:mm") + "]";
+    var timestamp = "[" + moment(date_str, "YYYY-MM-DDTHH:mm:ssZ").format("YYYY/MM/DD HH:mm") + "]";
     var message = value["message"].replace(/(\r\n)+$/,'').replace(/\n+$/,'');
     var title = message.split("\n")[0];
     var desc = message.split("\n");
     desc.shift();
     if (desc){ desc = desc.join("\n"); };
-    var url = value["url"];
+    var url = value["html_url"];
     var added = value["added"];
     var removed = value["removed"];
     var modified = value["modified"];
@@ -153,12 +153,12 @@ app.post('/gitbucket', function(req, res){
   console.log(payload);
 
   emailTemplates(templatesDir, function(err, template){
-    var pusher = payload["pusher"]["name"];
+    var pusher = payload["pusher"]["login"];
     var branch = payload["ref"].match(/refs\/(.+)\/(.+)/)[2];
     var commits = payload["commits"];
     var repo = payload["repository"]["name"];
-    var owner = payload["repository"]["owner"]["name"];
-    var url = payload["repository"]["url"];
+    var owner = payload["repository"]["owner"]["login"];
+    var url = payload["repository"]["html_url"];
 
     // コミットがない場合はエラー終了(tagの場合も含む)
     if (commits.length == 0){
