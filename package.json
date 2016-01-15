@@ -14,10 +14,10 @@
     "nodemailer": "0.6.5",
     "moment": "2.6.0",
     "mongodb": "0.9.8",
-    "email-templates": "1.0.0"
+    "email-templates": "1.2.1"
   },
   "engines": {
-    "node": "0.10.28",
+    "node": "0.12.7",
     "npm": "1.4.9"
   }
 }
